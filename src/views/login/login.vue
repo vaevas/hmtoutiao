@@ -11,14 +11,14 @@
           <el-button style=" float: right">获取验证码</el-button>
         </el-form-item>
         <el-form-item>
-          <el-checkbox :value="true">
+          <el-checkbox v-model="checked">
             我已阅读并同意
             <span>用户协议</span>和
             <span>隐私条款</span>
           </el-checkbox>
         </el-form-item>
         <el-form-item>
-          <el-button type="primary" style="width:100%" @click="login">登 录</el-button>
+          <el-button type="primary" style="width:100%" @click="login" :disabled="!checked">登 录</el-button>
         </el-form-item>
       </el-form>
     </el-card>
@@ -43,6 +43,7 @@ export default {
       }
     }
     return {
+      checked: true,
       FormDataLogin: {
         mobile: '',
         code: ''
@@ -63,14 +64,17 @@ export default {
 
   methods: {
     login () {
+      // 整体验证
       this.$refs.FormDataLogin.validate(vaild => {
         if (vaild) {
           this.$http
             .post(
-              'http://ttapi.research.itcast.cn/mp/v1_0/authorizations',
+              'authorizations',
               this.FormDataLogin
             )
             .then(res => {
+              // console.log(res)
+              window.sessionStorage.setItem('tokens', JSON.stringify(res.data.data))
               this.$router.push('/')
             })
             .catch(() => {
