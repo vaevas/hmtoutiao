@@ -4,7 +4,7 @@
       <div class="logo" :class="{logosize:coll}"></div>
       <el-menu
       router
-      default-active="/"
+      :default-active="$route.path"
       background-color="#002033"
       text-color="#fff"
       active-text-color="#ffd04b"
@@ -48,16 +48,16 @@
         <span class="text">江苏传智播客有限公司</span>
         <el-dropdown style="float:right">
           <span class="el-dropdown-link">
-            <img src="../../assets/images/avatar.jpg" alt="" style="vertical-align: middle" width="30" height="30">
-            <strong>黑马小哥</strong>
+            <img :src="photo" alt="" style="vertical-align: middle" width="30" height="30">
+            <strong>{{name}}</strong>
             <i class="el-icon-arrow-down el-icon--right"></i>
           </span>
           <el-dropdown-menu slot="dropdown">
-            <el-dropdown-item>
+            <el-dropdown-item @click.native="setting()">
               <span class="el-icon-s-custom"></span>
               个人设置
             </el-dropdown-item>
-            <el-dropdown-item>
+            <el-dropdown-item @click.native="out()">
               <span class="el-icon-unlock"></span>
               退出登录
             </el-dropdown-item>
@@ -75,12 +75,26 @@
 export default {
   data () {
     return {
-      coll: false
+      coll: false,
+      name: '',
+      photo: ''
     }
+  },
+  created () {
+    const set = JSON.parse(window.sessionStorage.getItem('tokens'))
+    this.photo = set.photo
+    this.name = set.name
   },
   methods: {
     open () {
       this.coll = !this.coll
+    },
+    setting () {
+      this.$router.push('/setting')
+    },
+    out () {
+      window.sessionStorage.removeItem('tokens')
+      this.$router.push('/login')
     }
   }
 }
@@ -106,7 +120,8 @@ export default {
   }
   .home-header {
     line-height: 60px;
-    border-bottom: 1px solid #240;
+    box-shadow: 1px 3px 5px #888888;
+    z-index: 9999;
     .el-icon-s-fold {
       font-size: 26px;
       vertical-align: middle;

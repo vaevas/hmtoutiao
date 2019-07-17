@@ -61,7 +61,6 @@ export default {
       }
     }
   },
-
   methods: {
     login () {
       // 整体验证
@@ -78,10 +77,22 @@ export default {
               this.$router.push('/')
             })
             .catch(() => {
-              this.$massage.error('手机号或验证码错误')
+              this.$message.error('手机号或验证码错误')
             })
         }
       })
+      // 用async和await使用
+      // this.$refs.FormDataLogin.validate(async vaild => {
+      //   if (vaild) {
+      //     try {
+      //       const res = await this.$http.post('authorizations', this.FormDataLogin)
+      //       window.sessionStorage.setItem('tokens', JSON.stringify(res.data.data))
+      //       this.$router.push('/')
+      //     } catch (err) {
+      //       this.$message.error('手机号或验证码错误')
+      //     }
+      //   }
+      // })
     }
   }
 }
