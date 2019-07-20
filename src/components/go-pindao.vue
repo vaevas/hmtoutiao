@@ -6,7 +6,7 @@
 
 <script>
 export default {
-  name: 'my-channle',
+  name: 'go-pindao',
   props: ['value'],
   data () {
     return {

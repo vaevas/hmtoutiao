@@ -15,7 +15,7 @@
           </el-radio-group>
         </el-form-item>
         <el-form-item label="频道: ">
-          <my-channle v-model="form.channel_id"></my-channle>
+          <go-pindao v-model="form.channel_id"></go-pindao>
         </el-form-item>
         <el-form-item label="时间: ">
           <div class="block">
@@ -80,12 +80,13 @@
       </el-table>
       <div class="box">
         <el-pagination
+          v-if="num>form.per_page"
           background
           layout="prev, pager, next"
           :total="num"
           @current-change="getpage"
           :current-page="form.page"
-          :page-size="form.pagenum"
+          :page-size="form.per_page"
         ></el-pagination>
       </div>
     </el-card>
@@ -102,9 +103,8 @@ export default {
         begin_pubdate: null,
         end_pubdate: null,
         page: 1,
-        pagenum: 20
+        per_page: 20
       },
-      lie: [{ id: 1, name: 'web' }],
       tableData: [],
       num: 0,
       value1: []
@@ -112,6 +112,8 @@ export default {
   },
   created () {
     this.gettabledata()
+    console.log(this.$route)
+    console.log(this.$router)
   },
   methods: {
     shaixuan () {
@@ -139,7 +141,7 @@ export default {
     },
     // 删除
     del (id) {
-      this.$confirm('此操作将永久删除该文章, 是否继续?', '提示', {
+      this.$confirm('此操作将永久删除该素材, 是否继续?', '提示', {
         confirmButtonText: '确定',
         cancelButtonText: '取消',
         type: 'warning'
@@ -149,6 +151,7 @@ export default {
           type: 'success',
           message: '删除成功!'
         })
+        this.gettabledata()
       }).catch(() => {
       })
     },

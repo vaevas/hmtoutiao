@@ -5,6 +5,7 @@ import 'element-ui/lib/theme-chalk/index.css'
 import router from '@/routers'
 import axios from './api/axios.js'
 import componnets from '@/components'
+import '@/styles/index.less'
 Vue.use(componnets)
 Vue.prototype.$http = axios
 Vue.config.productionTip = false
