@@ -72,6 +72,7 @@
 </template>
 
 <script>
+import eventbus from '@/eventbus'
 export default {
   data () {
     return {
@@ -84,6 +85,12 @@ export default {
     const set = JSON.parse(window.sessionStorage.getItem('tokens'))
     this.photo = set.photo
     this.name = set.name
+    eventbus.$on('xgxx', (name) => {
+      this.name = name
+    })
+    eventbus.$on('xgtx', (photo) => {
+      this.photo = photo
+    })
   },
   methods: {
     open () {
