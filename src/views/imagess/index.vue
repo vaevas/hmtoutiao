@@ -15,7 +15,7 @@
       element-loading-spinner="el-icon-loading"
       element-loading-background="rgba(0, 0, 0, 0.8)"
     >
-      <li v-for="item in images" :key="item.id">
+      <li v-for="item in images" :key="item.id" @click="yulan(item.url)">
         <img :src="item.url" alt />
         <div class="btn">
           <span class="el-icon-star-off" :class="{red:item.is_collected}" @click="shoucang(item)"></span>
@@ -23,6 +23,12 @@
         </div>
       </li>
     </ul>
+    <el-dialog title="图片预览" :visible.sync="dialogVisibles" width="500px">
+      <img :src="photo" alt="" width="100%" height="100%" style="object-fit:contain">
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="dialogVisibles = false">关闭</el-button>
+      </span>
+    </el-dialog>
     <el-pagination
       v-if="num>imageForm.per_page"
       background
@@ -65,9 +71,12 @@ export default {
       loading: false,
       dialogVisible: false,
       imageUrl: null,
-      headers: { Authorization:
-          'Bearer ' +
-          JSON.parse(window.sessionStorage.getItem('tokens')).token }
+      headers: {
+        Authorization:
+          'Bearer ' + JSON.parse(window.sessionStorage.getItem('tokens')).token
+      },
+      dialogVisibles: false,
+      photo: null
     }
   },
   created () {
@@ -75,6 +84,10 @@ export default {
   },
 
   methods: {
+    yulan (img) {
+      this.dialogVisibles = true
+      this.photo = img
+    },
     shaixuan () {
       this.imageForm.page = 1
       this.getimage()

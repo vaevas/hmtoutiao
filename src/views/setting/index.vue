@@ -91,7 +91,7 @@ export default {
         email: this.form.email
       })
       this.$message.success('修改用户信息成功')
-      eventbus.$emit('xg', data.name)
+      eventbus.$emit('xgxx', data.name)
       const userInfo = JSON.parse(window.sessionStorage.getItem('tokens'))
       userInfo.name = data.name
       window.sessionStorage.setItem('tokens', JSON.stringify(userInfo))
